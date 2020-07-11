@@ -20,10 +20,17 @@ public class DistanceRepositoryCustomImpl implements DistanceRepositoryCustom {
 	@Override
 	public List<Distance> findBetweenDates(Long personId, String start, String end) {
 		Query query = entityManager.createNativeQuery(
-				"select * from distance where ? <=START_TIME and ? >=END_TIME and PERSON_ID=?", Distance.class);
+				"select * from distance where ("
+				+ "(? <=START_TIME and ? >=END_TIME)"
+				+ "or(? between START_TIME and END_TIME) "
+				+ "or(? between START_TIME and END_TIME)"
+				+ ") and PERSON_ID=?",
+				Distance.class);
 		query.setParameter(1, start);
 		query.setParameter(2, end);
-		query.setParameter(3, personId);
+		query.setParameter(3, start);
+		query.setParameter(4, end);
+		query.setParameter(5, personId);
 
 		return query.getResultList();
 	}

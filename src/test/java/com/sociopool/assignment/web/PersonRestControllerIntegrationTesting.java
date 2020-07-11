@@ -35,6 +35,6 @@ public class PersonRestControllerIntegrationTesting {
 		HttpEntity<String> request = new HttpEntity<>(json, headers);
 		ResponseEntity<Double> response = restTemplate.postForEntity(url, request, Double.class);
 
-		assertEquals(response.getBody(), 15.0d);
+		assertEquals(response.getBody(), 31.0d);
 	}
 }
